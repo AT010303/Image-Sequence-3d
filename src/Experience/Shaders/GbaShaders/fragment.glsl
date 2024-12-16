@@ -5,6 +5,9 @@ uniform sampler2D uAlphaTexture;
 uniform sampler2D uMvTexture;
 uniform sampler2D uPositionTexture;
 
+uniform float uProgress;
+uniform float uDisplacementStrength;
+
 uniform float uMouse;
 
 vec2 getSubUv (vec2 uv, float index){
@@ -31,20 +34,32 @@ vec2 getSubUv (vec2 uv, float index){
 }
 
 // blending of textures with next frame texture
-vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv){
+vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, vec2 displacement, vec2 displacementNext){
 
     // Get the diffuse texture color
-    vec4 diffuse = texture2D(map, uv);
+    vec4 diffuse = texture2D(map, uv - displacement*blend);
     float alphaTexture = texture2D(alpha, uv).r; // alpha value of the current frame
     diffuse.a = alphaTexture; // Set the alpha value of the current frame
 
     // Get the diffuse texture color of the next frame
-    vec4 diffuseNext = texture2D(map, nextUv);
+    vec4 diffuseNext = texture2D(map, nextUv + (displacementNext * (1.0 - blend)));
     float alphaTextureNext = texture2D(alpha, nextUv).r; // alpha value of the next frame
     diffuseNext.a = alphaTextureNext; // Set the alpha value of the next frame
 
     // Mix the two textures based on the blend factor
     return mix(diffuse, diffuseNext, blend);
+}
+
+// calculating displacement of the texture based on the displacement map
+vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
+    // Get the displacement data from the texture
+    vec4 tData = texture2D(map, uv);
+    // Convert the displacement data to a vec2 in the range (-1, 1)
+    vec2 displacement = tData.rg;
+    // Normalize the displacement to the range (-1, 1) and scale it by the strength factor
+    displacement = (displacement - 0.5) * 2.0;
+    displacement *= strength;// scale the displacement
+    return displacement;
 }
 
 void main () {
@@ -58,7 +73,12 @@ void main () {
     vec2 subUv = getSubUv(vUv, index);
     vec2 subUvNext = getSubUv(vUv, index + 1.0);
 
-    vec4 diffuseMap = getMap(uDiffuseTexture, uAlphaTexture, blend, subUv, subUvNext);
+    float udispStrengthDemo = 0.003;
+    // vec2 displacement
+    vec2 displacement = getDisplacement(uMvTexture, subUv, uDisplacementStrength);
+    vec2 displacementNext = getDisplacement(uMvTexture, subUvNext, uDisplacementStrength);
+
+    vec4 diffuseMap = getMap(uDiffuseTexture, uAlphaTexture, blend, subUv, subUvNext, displacement, displacementNext);
 
     vec4 color = diffuseMap;
 

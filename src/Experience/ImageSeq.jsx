@@ -1,5 +1,6 @@
 import { useKTX2, useTexture } from "@react-three/drei";
 import { extend } from "@react-three/fiber";
+import { useControls } from "leva";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
@@ -12,13 +13,22 @@ GbaTexture.key = THREE.MathUtils.generateUUID();
 const ImageSeq = () => {
 
     const diffuseTexture  = useKTX2('/gba_images/gameboy_diffuse-high.ktx2');
+    diffuseTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const alphaTexture = useKTX2('/gba_images/gameboy_alpha-high.ktx2');
+    alphaTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const mvTexture = useKTX2('/gba_images/gameboy_mv-high.ktx2');
+    mvTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const positionTexture = useKTX2('/gba_images/gameboy_position-high.ktx2');
+    positionTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const textureRef = useRef();
 
     window.addEventListener('mousemove', (e) => {
         textureRef.current.uMouse = e.clientX / window.innerWidth;
+    });
+
+    const controls = useControls({
+        progress : { value: 0, min: 0, max: 1, step: 0.01 },
+        uDisplacementStrength: { value: 0.003, min: 0, max: 0.005, step: 0.0001 }
     });
     
     const TextureMaterialProp = useMemo(()=> ({
@@ -26,8 +36,10 @@ const ImageSeq = () => {
         uAlphaTexture: alphaTexture,
         uMvTexture: mvTexture,
         uPositionTexture: positionTexture,
+        uProgress : controls.progress,
+        uDisplacementStrength: controls.uDisplacementStrength,
         uMouse: new THREE.Vector2()
-    }),[diffuseTexture, alphaTexture, mvTexture, positionTexture]);
+    }),[diffuseTexture, alphaTexture, mvTexture, positionTexture, controls.progress, controls.uDisplacementStrength]);
 
     return (
         <>
