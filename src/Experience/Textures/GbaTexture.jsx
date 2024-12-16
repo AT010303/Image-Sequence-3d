@@ -8,6 +8,8 @@ const GbaTexture = shaderMaterial(
     {
         uDiffuseTexture : new THREE.Texture(),
         uAlphaTexture : new THREE.Texture(),
+        uMvTexture : new THREE.Texture(),
+        uPositionTexture: new THREE.Texture(),
         uMouse : 0
     },
     vertexShader,

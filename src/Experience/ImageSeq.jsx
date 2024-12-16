@@ -7,10 +7,14 @@ import GbaTexture from "./Textures/GbaTexture";
 
 extend({ GbaTexture });
 
+GbaTexture.key = THREE.MathUtils.generateUUID();
+
 const ImageSeq = () => {
 
     const diffuseTexture  = useKTX2('/gba_images/gameboy_diffuse-high.ktx2');
     const alphaTexture = useKTX2('/gba_images/gameboy_alpha-high.ktx2');
+    const mvTexture = useKTX2('/gba_images/gameboy_mv-high.ktx2');
+    const positionTexture = useKTX2('/gba_images/gameboy_position-high.ktx2');
     const textureRef = useRef();
 
     window.addEventListener('mousemove', (e) => {
@@ -20,15 +24,17 @@ const ImageSeq = () => {
     const TextureMaterialProp = useMemo(()=> ({
         uDiffuseTexture: diffuseTexture,
         uAlphaTexture: alphaTexture,
+        uMvTexture: mvTexture,
+        uPositionTexture: positionTexture,
         uMouse: new THREE.Vector2()
-    }),[diffuseTexture, alphaTexture]);
+    }),[diffuseTexture, alphaTexture, mvTexture, positionTexture]);
 
     return (
         <>
             <mesh >
                 <planeGeometry args={[1, 1]} />
                 {/* <meshBasicMaterial map={texture} /> */}
-                <gbaTexture { ...TextureMaterialProp} ref={textureRef} side = {THREE.DoubleSide} transparent = {true}/>
+                <gbaTexture { ...TextureMaterialProp} ref={textureRef} side = {THREE.DoubleSide} transparent = {true} key={GbaTexture.key}/>
             </mesh>
         </>
     );
