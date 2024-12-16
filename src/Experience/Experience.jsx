@@ -2,18 +2,15 @@ import { CameraControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Perf } from 'r3f-perf';
 
+import ImageSeq from './ImageSeq';
+
 const Experience = () => {
     return (
         <>
-            <Canvas>
+            <Canvas camera={{ position: [0, 0, 1] }}>
                 <Perf position={'top-left'} />
                 <CameraControls />
-                <ambientLight intensity={1} />
-                <directionalLight position={[5, 5, 5]} />
-                <mesh>
-                    <boxGeometry />
-                    <meshStandardMaterial color={'lightgreen'} />
-                </mesh>
+                <ImageSeq />
             </Canvas>
         </>
     );
