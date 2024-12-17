@@ -2,7 +2,9 @@ import { CameraControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Perf } from 'r3f-perf';
 
-import ImageSeq from './ImageSeq';
+import Demo from './demo.jsx';
+// import ImageSeq from './ImageSeq.jsx';
+// import NothingEar from './nothingEar.jsx';
 
 const Experience = () => {
     return (
@@ -14,7 +16,9 @@ const Experience = () => {
                 }} >
                 <Perf position={'top-left'} />
                 <CameraControls />
-                <ImageSeq />
+                {/* <NothingEar /> */}
+                {/* <ImageSeq /> */}
+                <Demo />
             </Canvas>
         </>
     );
