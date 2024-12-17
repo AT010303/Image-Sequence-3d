@@ -11,7 +11,7 @@ const GbaTexture = shaderMaterial(
         uMvTexture : new THREE.Texture(),
         uPositionTexture: new THREE.Texture(),
         uProgress : 0,
-        uDisplacementStrength : 0.003,
+        uDisplacementStrength : 0.00333,
         uMouse : 0
     },
     vertexShader,

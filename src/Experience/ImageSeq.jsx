@@ -21,14 +21,17 @@ const ImageSeq = () => {
     const positionTexture = useKTX2('/gba_images/gameboy_position-high.ktx2');
     positionTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const textureRef = useRef();
+    const meshRef = useRef();
 
     window.addEventListener('mousemove', (e) => {
         textureRef.current.uMouse = e.clientX / window.innerWidth;
+        meshRef.current.rotation.x = (e.clientX / window.innerWidth) * 0.1;
+        meshRef.current.rotation.y = (e.clientY / window.innerHeight) * 0.1;
     });
 
     const controls = useControls({
         progress : { value: 0, min: 0, max: 1, step: 0.01 },
-        uDisplacementStrength: { value: 0.003, min: 0, max: 0.005, step: 0.0001 }
+        uDisplacementStrength: { value: 0.00333, min: 0, max: 0.005, step: 0.0001 }
     });
     
     const TextureMaterialProp = useMemo(()=> ({
@@ -43,7 +46,7 @@ const ImageSeq = () => {
 
     return (
         <>
-            <mesh >
+            <mesh ref={meshRef}>
                 <planeGeometry args={[1, 1]} />
                 {/* <meshBasicMaterial map={texture} /> */}
                 <gbaTexture { ...TextureMaterialProp} ref={textureRef} side = {THREE.DoubleSide} transparent = {true} key={GbaTexture.key}/>

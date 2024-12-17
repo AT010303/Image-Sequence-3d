@@ -7,7 +7,11 @@ import ImageSeq from './ImageSeq';
 const Experience = () => {
     return (
         <>
-            <Canvas camera={{ position: [0, 0, 1] }}>
+            <Canvas camera={{ position: [0, 0, 1]}} gl={{
+                    antialias: true,
+                    alpha: true,
+                    powerPreference: 'high-performance'
+                }} >
                 <Perf position={'top-left'} />
                 <CameraControls />
                 <ImageSeq />
