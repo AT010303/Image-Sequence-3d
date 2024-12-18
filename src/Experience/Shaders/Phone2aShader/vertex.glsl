@@ -1,8 +1,6 @@
 precision mediump float;
 varying vec2 vUv;
 
-varying vec4 vTransformedPosition;
-
 void main () {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -11,5 +9,4 @@ void main () {
 
     //varying
     vUv = uv;
-    vTransformedPosition = projectedPosition;
 }

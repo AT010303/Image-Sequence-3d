@@ -52,13 +52,15 @@ vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, v
 
 // calculating displacement of the texture based on the displacement map
 vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
+
+    float udispStrengthDemo =0.00003;
     // Get the displacement data from the texture
     vec4 tData = texture2D(map, uv);
     // Convert the displacement data to a vec2 in the range (-1, 1)
     vec2 displacement = tData.rg;
     // Normalize the displacement to the range (-1, 1) and scale it by the strength factor
     displacement = (displacement - 0.5) * 2.0;
-    displacement *= strength;// scale the displacement
+    displacement *= udispStrengthDemo;// scale the displacement
     return displacement;
 }
 
@@ -73,7 +75,7 @@ void main () {
     vec2 subUv = getSubUv(vUv, index);
     vec2 subUvNext = getSubUv(vUv, index + 1.0);
 
-    float udispStrengthDemo = 0.003;
+    
     // vec2 displacement
     vec2 displacement = getDisplacement(uMvTexture, subUv, uDisplacementStrength);
     vec2 displacementNext = getDisplacement(uMvTexture, subUvNext, uDisplacementStrength);
@@ -81,8 +83,10 @@ void main () {
     vec4 diffuseMap = getMap(uDiffuseTexture, uAlphaTexture, blend, subUv, subUvNext, displacement, displacementNext);
 
     vec4 color = diffuseMap;
+    vec4 colors = texture2D(uDiffuseTexture, vUv);
 
-    gl_FragColor = color;
+    gl_FragColor = color* 2.0;
+
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }

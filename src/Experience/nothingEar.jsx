@@ -14,6 +14,8 @@ const NothingEar = () => {
 
     const diffuseTexture  = useTexture('/nothingEar/NothingEar6x6.jpg');
     // diffuseTexture.colorSpace = THREE.LinearSRGBColorSpace;
+    diffuseTexture.encoding = THREE.ACESFilmicToneMapping;
+    // diffuseTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const alphaTexture = useTexture('/nothingEar/alpha6x6.jpg');
     // alphaTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const textureRef = useRef();

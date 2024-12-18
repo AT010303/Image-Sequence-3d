@@ -1,4 +1,5 @@
 varying vec2 vUv;
+varying vec4 vTransformedPosition;
 
 uniform sampler2D uDiffuseTexture;
 uniform sampler2D uAlphaTexture;
@@ -54,6 +55,12 @@ vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
     displacement = (displacement - 0.5) * 2.0;
     displacement *= strength;// scale the displacement
     return displacement;
+}
+
+vec3 getMotionVectorMap(vec4 transformedPosition){
+    vec4 mv = transformedPosition;
+    vec3 color = abs(mv.xyz);
+    return color;
 }
 
 void main () {
