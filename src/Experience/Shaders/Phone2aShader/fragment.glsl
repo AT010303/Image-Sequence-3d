@@ -3,7 +3,6 @@ varying vec2 vUv;
 uniform sampler2D uDiffuseTexture;
 uniform sampler2D uAlphaTexture;
 uniform sampler2D uMvTexture;
-uniform sampler2D uPositionTexture;
 
 uniform float uProgress;
 uniform float uDisplacementStrength;
@@ -37,12 +36,12 @@ vec2 getSubUv (vec2 uv, float index){
 vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, vec2 displacement, vec2 displacementNext){
 
     // Get the diffuse texture color
-    vec4 diffuse = texture2D(map, uv - displacement*blend);
+    vec4 diffuse = texture2D(map, uv + displacement * blend);
     float alphaTexture = texture2D(alpha, uv).r; // alpha value of the current frame
     diffuse.a = alphaTexture; // Set the alpha value of the current frame
 
     // Get the diffuse texture color of the next frame
-    vec4 diffuseNext = texture2D(map, nextUv + (displacementNext * (1.0 - blend)));
+    vec4 diffuseNext = texture2D(map, nextUv - (displacementNext * (1.0 - blend)));
     float alphaTextureNext = texture2D(alpha, nextUv).r; // alpha value of the next frame
     diffuseNext.a = alphaTextureNext; // Set the alpha value of the next frame
 
@@ -53,7 +52,7 @@ vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, v
 // calculating displacement of the texture based on the displacement map
 vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
 
-    float udispStrengthDemo =0.00003;
+    float udispStrengthDemo = 0.001;
     // Get the displacement data from the texture
     vec4 tData = texture2D(map, uv);
     // Convert the displacement data to a vec2 in the range (-1, 1)
@@ -64,10 +63,9 @@ vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
     return displacement;
 }
 
-void main () {
-
+void main () {    
     // Index of the texture to display
-    float index = mix(1.0, 15.0, uMouse);
+    float index = mix(1.0, 15.0, uMouse );
 
     float blend = fract(index);
 
@@ -83,10 +81,9 @@ void main () {
     vec4 diffuseMap = getMap(uDiffuseTexture, uAlphaTexture, blend, subUv, subUvNext, displacement, displacementNext);
 
     vec4 color = diffuseMap;
-    vec4 colors = texture2D(uDiffuseTexture, vUv);
 
-    gl_FragColor = color* 2.0;
+    gl_FragColor = color;
 
-    #include <tonemapping_fragment>
-    #include <colorspace_fragment>
+    // #include <tonemapping_fragment>
+    // #include <colorspace_fragment>
 }

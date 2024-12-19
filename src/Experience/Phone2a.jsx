@@ -1,4 +1,4 @@
-import { useTexture } from "@react-three/drei";
+import { useKTX2 } from "@react-three/drei";
 import { extend } from "@react-three/fiber";
 import { useControls } from "leva";
 import { useMemo, useRef } from "react";
@@ -12,12 +12,13 @@ Phone2aTexture.key = THREE.MathUtils.generateUUID();
 
 const Phone2a = () => {
 
-    const diffuseTexture  = useTexture('/phone2a/phone2aDiffuse.jpg');
+    const diffuseTexture  = useKTX2('/phone2a/ColorTexture3Cmp.ktx2');
     diffuseTexture.colorSpace = THREE.LinearSRGBColorSpace;
-    const alphaTexture = useTexture('/phone2a/phone2aAlpha.jpg');
+    const alphaTexture = useKTX2('/phone2a/Alpha3Cmp.ktx2');
     alphaTexture.colorSpace = THREE.LinearSRGBColorSpace;
-    const mvTexture = useTexture('/phone2a/phone2aMVmin.jpg');
+    const mvTexture = useKTX2('/phone2a/MVTexture3Cmp.ktx2');
     mvTexture.colorSpace = THREE.LinearSRGBColorSpace;
+    
 
     // mvTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const textureRef = useRef();
@@ -26,8 +27,8 @@ const Phone2a = () => {
     window.addEventListener('mousemove', (e) => {
         textureRef.current.uMouse = e.clientX / window.innerWidth;
         // mesh paralaax
-        meshRef.current.rotation.x = (e.clientY / window.innerHeight) * 0.1;
-        meshRef.current.rotation.y = (e.clientX / window.innerWidth) * 0.1;
+        // meshRef.current.rotation.x = (e.clientY / window.innerHeight) * 0.1;
+        // meshRef.current.rotation.y = (e.clientX / window.innerWidth) * 0.1;
     });
 
     const controls = useControls({
@@ -45,7 +46,7 @@ const Phone2a = () => {
     }),[diffuseTexture, alphaTexture, mvTexture, controls.progressPhone, controls.uDisplacementStrengthPhone]);
 
     return (
-        <>
+        <>  
             <mesh ref={meshRef} position={[0, 0, 0]}>
                 <planeGeometry args={[1, 1]} />
                 {/* <meshBasicMaterial map={diffuseTexture} /> */}

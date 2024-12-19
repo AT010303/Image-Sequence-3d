@@ -5,7 +5,7 @@ import { Perf } from 'r3f-perf';
 // import Demo from './demo.jsx';
 // import ImageSeq from './ImageSeq.jsx';
 // import NothingEar from './nothingEar.jsx';
-import Phone2a from './phone2a';
+import Phone2a from './Phone2a';
 
 const Experience = () => {
     return (
