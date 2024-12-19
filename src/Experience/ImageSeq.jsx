@@ -46,7 +46,7 @@ const ImageSeq = () => {
 
     return (
         <>
-            <mesh ref={meshRef} position={[-0.5, 0, 0]}>
+            <mesh ref={meshRef} position={[0, 0, 0]}>
                 <planeGeometry args={[1, 1]} />
                 {/* <meshBasicMaterial map={texture} /> */}
                 <gbaTexture { ...TextureMaterialProp} ref={textureRef} side = {THREE.DoubleSide} transparent = {true} key={GbaTexture.key}/>

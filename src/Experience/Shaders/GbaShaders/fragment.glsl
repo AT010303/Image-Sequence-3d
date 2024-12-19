@@ -83,6 +83,4 @@ void main () {
     vec4 color = diffuseMap;
 
     gl_FragColor = color;
-    #include <tonemapping_fragment>
-    #include <colorspace_fragment>
 }
