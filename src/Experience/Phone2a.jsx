@@ -16,7 +16,7 @@ const Phone2a = () => {
     diffuseTexture.colorSpace = THREE.LinearSRGBColorSpace;
     const alphaTexture = useKTX2('/phone2a/Alpha3Cmp.ktx2');
     alphaTexture.colorSpace = THREE.LinearSRGBColorSpace;
-    const mvTexture = useKTX2('/phone2a/MVTexture3Cmp.ktx2');
+    const mvTexture = useKTX2('/phone2a/MVCmp2.ktx2');
     mvTexture.colorSpace = THREE.LinearSRGBColorSpace;
     
 
