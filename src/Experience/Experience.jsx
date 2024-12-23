@@ -10,11 +10,14 @@ import Phone2a from './Phone2a';
 const Experience = () => {
     return (
         <>
-            <Canvas camera={{ position: [0, 0, 0.7]}} gl={{
+            <Canvas
+                camera={{ position: [0, 0, 0.7] }}
+                gl={{
                     antialias: true,
                     alpha: true,
-                    powerPreference: 'high-performance',
-                }} >
+                    powerPreference: 'high-performance'
+                }}
+            >
                 <Perf position={'top-left'} />
                 <CameraControls />
                 {/* <NothingEar /> */}

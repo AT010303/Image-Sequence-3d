@@ -9,31 +9,31 @@ uniform float uDisplacementStrength;
 
 uniform float uMouse;
 
-vec2 getSubUv (vec2 uv, float index){
+vec2 getSubUv(vec2 uv, float index) {
     // calculating normalized index relative to number of columns in the grid. 4 in our case
-    float ind = index/4.0;
+    float ind = index / 4.0;
 
     // Shrinks the UV coordinates to fit one cell of the 4x4 grid.
     // Dividing by 4 maps the UV range of (0, 1) for the entire texture to (0, 0.25) for each cell.
-    vec2 uv1 = uv/4.0;
+    vec2 uv1 = uv / 4.0;
 
     // Offsets the y coordinate upward by 3/4 of the texture height to start from the top row (the grid is 4x4, so rows are 1/4 tall).
-    uv1.y += 3.0/4.0;
+    uv1.y += 3.0 / 4.0;
 
     // Horizontal offset
     // fract(ind) * 4.0 isolates the fractional part of ind to determine the column within the grid (0 to 3).
     // floor(...) / 4.0 maps this to the range (0, 0.25, 0.5, 0.75), corresponding to each column's start position.
-    uv1.x += floor(fract(ind)* 4.0)/4.0;
+    uv1.x += floor(fract(ind) * 4.0) / 4.0;
 
     // Vertical offset
     // Divides ind by 4.0 to calculate the row index, then adjusts y downward by the appropriate amount (0, 0.25, 0.5, or 0.75).
-    uv1.y -= floor(fract(ind/4.0)*4.0)/4.0;
+    uv1.y -= floor(fract(ind / 4.0) * 4.0) / 4.0;
 
     return uv1;
 }
 
 // blending of textures with next frame texture
-vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, vec2 displacement, vec2 displacementNext){
+vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, vec2 displacement, vec2 displacementNext) {
 
     // Get the diffuse texture color
     vec4 diffuse = texture2D(map, uv + displacement * blend);
@@ -50,7 +50,7 @@ vec4 getMap(sampler2D map, sampler2D alpha, float blend, vec2 uv, vec2 nextUv, v
 }
 
 // calculating displacement of the texture based on the displacement map
-vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
+vec2 getDisplacement(sampler2D map, vec2 uv, float strength) {
 
     float udispStrengthDemo = 0.001;
     // Get the displacement data from the texture
@@ -63,9 +63,9 @@ vec2 getDisplacement(sampler2D map, vec2 uv, float strength){
     return displacement;
 }
 
-void main () {    
+void main() {    
     // Index of the texture to display
-    float index = mix(1.0, 15.0, uMouse );
+    float index = mix(1.0, 15.0, uMouse);
 
     float blend = fract(index);
 
@@ -73,7 +73,6 @@ void main () {
     vec2 subUv = getSubUv(vUv, index);
     vec2 subUvNext = getSubUv(vUv, index + 1.0);
 
-    
     // vec2 displacement
     vec2 displacement = getDisplacement(uMvTexture, subUv, uDisplacementStrength);
     vec2 displacementNext = getDisplacement(uMvTexture, subUvNext, uDisplacementStrength);

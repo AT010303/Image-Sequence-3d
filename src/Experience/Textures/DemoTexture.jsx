@@ -6,7 +6,7 @@ import vertexShader from '../Shaders/Demo/vertex.glsl';
 
 const DemoTexture = shaderMaterial(
     {
-        uImageTexture : new THREE.Texture(),
+        uImageTexture: new THREE.Texture()
     },
     vertexShader,
     fragmentShader
